@@ -26,8 +26,15 @@ Redmine::WikiFormatting::Macros.register do
         else
             file_url = args[0].gsub(/<.*?>/, '').gsub(/&lt;.*&gt;/,'')
         end
+
+        if args[0] =~ /(youtube.com|youtu.be)/i
+            player = 'jwplayer6.js' # https://stackoverflow.com/q/47289886/674713
+        else
+            player = 'jwplayer8.js'
+        end
+
 out = <<END
-<script type="text/javascript" src="#{request.protocol}#{request.host_with_port}#{ActionController::Base.relative_url_root}/plugin_assets/redmine_embedded_video/jwplayer.js"></script>
+<script type="text/javascript" src="#{request.protocol}#{request.host_with_port}#{ActionController::Base.relative_url_root}/plugin_assets/redmine_embedded_video/#{player}"></script>
 <div id="video_#{@num}">Loading the player ...</div>
 <script type="text/javascript">
     jwplayer("video_#{@num}").setup({
