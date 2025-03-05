@@ -37,7 +37,8 @@ Redmine::WikiFormatting::Macros.register do
 END
         else
              out = <<END
-<script type="text/javascript" src="#{request.protocol}#{request.host_with_port}#{ActionController::Base.relative_url_root}/plugin_assets/redmine_embedded_video/jwplayer.js"></script>
+<!-- script type="text/javascript" src="#{request.protocol}#{request.host_with_port}#{ActionController::Base.relative_url_root}/plugin_assets/redmine_embedded_video/jwplayer.js"></script -->
+<script type="text/javascript" src="https://cdn.jwplayer.com/libraries/nrmuyplX.js"></script>
 <div id="video_#{@num}">Loading the player ...</div>
 <script type="text/javascript">
     jwplayer("video_#{@num}").setup({
