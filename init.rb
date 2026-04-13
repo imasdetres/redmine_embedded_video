@@ -1,12 +1,11 @@
 require 'redmine'
-#require 'dispatcher'
 
 Redmine::Plugin.register :redmine_embedded_video do
  name 'Redmine Embedded Video'
  author 'Nikolay Kotlyarov, PhobosK, Jan Pilz'
- description 'Embeds attachment videos, video URLs or Youtube videos. Usage (as macro): video(ID|URL|YOUTUBE_URL). Updated to JW Player 6.2.3115, SWFObject removed'
+ description 'Embeds attachment videos, video URLs or Youtube videos. Usage (as macro): video(ID|URL|YOUTUBE_URL). Uses native HTML5 video.'
  url 'http://www.redmine.org/issues/5171'
- version '0.0.3.1'
+ version '0.2.0'
 end
 
 Redmine::WikiFormatting::Macros.register do
@@ -32,21 +31,15 @@ Redmine::WikiFormatting::Macros.register do
             out = <<END
 <iframe type="text/html" width="#{@width}" height="#{@height}"
   src="https://www.youtube.com/embed/#{video_id}"
-  frameborder="0">
+  frameborder="0" allowfullscreen>
 </iframe>
 END
         else
              out = <<END
-<!-- script type="text/javascript" src="#{request.protocol}#{request.host_with_port}#{ActionController::Base.relative_url_root}/plugin_assets/redmine_embedded_video/jwplayer.js"></script -->
-<script type="text/javascript" src="https://cdn.jwplayer.com/libraries/nrmuyplX.js"></script>
-<div id="video_#{@num}">Loading the player ...</div>
-<script type="text/javascript">
-    jwplayer("video_#{@num}").setup({
-        file: "#{file_url}",
-        height: #{@height},
-        width: #{@width} 
-    });
-</script>
+<video width="#{@width}" height="#{@height}" playsinline controls>
+  <source src="#{file_url}">
+  Your browser does not support the video tag.
+</video>
 END
         end
 
