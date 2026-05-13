@@ -18,7 +18,7 @@ Redmine::WikiFormatting::Macros.register do
         @height ||= 300
         @num ||= 0
         @num = @num + 1
-        attachment = o.attachments.find_by_filename(args[0]) if o.respond_to?('attachments')
+        attachment = o.attachments.find { |a| a.filename == args[0] } if o.respond_to?('attachments')
 
         if attachment
             file_url = url_for(:only_path => false, :controller => 'attachments', :action => 'download', :id => attachment, :filename => attachment.filename)
